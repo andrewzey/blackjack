@@ -1,17 +1,18 @@
 class window.AppView extends Backbone.View
 
   template: _.template '
-    <div class="game-status"><p>Round is Not Over</p></div>
+    <div class="game-status"><h2>Round is Not Over</h2></div>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
-    <button class="new-game">New Game</button>
+    <button class="hit-button btn btn-success btn-lg">Hit</button>
+    <button class="stand-button btn btn-success btn-lg">Stand</button>
+    <button class="new-game btn btn-danger btn-lg">New Game</button>
   '
 
   events:
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
-    "click .new-game": -> $('body').html(new AppView(model: new App()).$el)
+    "click .new-game": -> $('.container').html(new AppView({model: new App()}).$el)
 
   initialize: ->
     @model.on('blackjack', => do @endgame('Blackjack'))
@@ -29,19 +30,22 @@ class window.AppView extends Backbone.View
 
   endgame: (status)->
     if (status is 'Blackjack')
-      $('.game-status p').text("You won with Blackjack!");
+      $('.game-status h2').text("You won with Blackjack!")
 
     if (status is 'Bust')
-      $('.game-status p').text("Game Over: You Busted!");
+      $('.game-status h2').text("Game Over: You Busted!")
 
     if (status is 'Won')
-      $('.game-status p').text("You Won!");
+      $('.game-status h2').text("You Won!")
 
     if (status is 'Lost')
-      $('.game-status p').text("You Lost!");
+      $('.game-status h2').text("You Lost!")
 
     if (status is 'Draw')
-      $('.game-status p').text("It's a Draw!");
+      $('.game-status h2').text("It's a Draw!")
 
-    $('.game-status').css('visibility', 'visible');
-    $('.new-game').css('visibility', 'visible');
+    $('.game-status').css('visibility', 'visible')
+    $('.new-game').css('visibility', 'visible')
+    $('.hit-button').hide()
+    $('.stand-button').hide()
+
