@@ -7,16 +7,15 @@ class window.Hand extends Backbone.Collection
   hit: ->
     @add(@deck.pop()).last()
 
-    #if it's the player hand
-    if @isDealer is undefined
-      if @scores()[0] > 21
+    if @scores()[0] > 21
         @trigger 'bust', @
-      else if @scores()[0] < 21
-        @trigger 'next', @
 
-    #if it's the dealer's hand
-    if @isDealer is true
-      console.log "hand is the dealer's"
+    # #if it's the player hand
+    # if @isDealer is undefined
+    #   if @scores()[0] > 21
+    #     @trigger 'bust', @
+    #   else if @scores()[0] < 21
+    #     @trigger 'next', @
 
 
   stand: ->
@@ -35,3 +34,6 @@ class window.Hand extends Backbone.Collection
       score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if hasAce then [score, score + 10] else [score]
+
+  playDealer: ->
+    #do something

@@ -15,8 +15,17 @@ class window.App extends Backbone.Model
     @get('dealerHand').on 'bust', =>
     	do @won
 
+  blackjack: ->
+    @trigger 'blackjack', @
+
+  bust: ->
+    @trigger 'bust', @
+
   won: ->
     @trigger 'won', @
 
   lost: ->
     @trigger 'lost', @
+
+  draw: ->
+    @trigger 'draw', @
