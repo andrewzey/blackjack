@@ -19,7 +19,7 @@ class window.App extends Backbone.Model
       if (playerScore is dealerScore)
         do @draw
 
-      else if playerScore is 21
+      else if playerScore is 21 and @get('playerHand').length is 2
         do @blackjack
 
       else if dealerScore > 21
