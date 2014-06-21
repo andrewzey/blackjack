@@ -7,21 +7,11 @@ class window.Hand extends Backbone.Collection
   hit: ->
     @add(@deck.pop()).last()
 
-    if @scores()[0] > 21
+    if @scores() > 21
         @trigger 'bust', @
 
-    # #if it's the player hand
-    # if @isDealer is undefined
-    #   if @scores()[0] > 21
-    #     @trigger 'bust', @
-    #   else if @scores()[0] < 21
-    #     @trigger 'next', @
-
-
   stand: ->
-    @trigger 'next', @
-
-
+    @trigger 'done', @
 
   scores: ->
     # The scores are an array of potential scores.
@@ -33,7 +23,13 @@ class window.Hand extends Backbone.Collection
     score = @reduce (score, card) ->
       score + if card.get 'revealed' then card.get 'value' else 0
     , 0
-    if hasAce then [score, score + 10] else [score]
+    if hasAce and (score + 10 <= 21) 
+      score + 10 
+    else 
+      score
 
   playDealer: ->
-    #do something
+    console.log('hello')
+    # @trigger 'bust', @
+    # @trigger 'done', @
+

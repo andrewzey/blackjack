@@ -7,13 +7,13 @@ class window.App extends Backbone.Model
     @set 'dealerHand', deck.dealDealer()
 
     @get('playerHand').on 'bust', => 
-    	do @lost
+    	do @bust
 
-    @get('playerHand').on 'next', => 
-    	do @get('dealerHand').at(0).flip
+    @get('playerHand').on 'done', =>
+      playerScore = @get('playerHand').scores()
+      console.log playerScore
+    	#@get('dealerHand').playDealer()
 
-    @get('dealerHand').on 'bust', =>
-    	do @won
 
   blackjack: ->
     @trigger 'blackjack', @
