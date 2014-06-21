@@ -9,12 +9,12 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'bust', => 
     	do @bust
 
-    @get('playerHand').on 'done', => 
-      do @get('dealerHand').playDealer
-
     @get('dealerHand').on 'bust', => 
       do @won
 
+    @get('playerHand').on 'done', => 
+      do @get('dealerHand').playDealer
+    
     @get('dealerHand').on 'done', =>
       playerScore = @get('playerHand').scores()
       dealerScore = @get('dealerHand').scores()

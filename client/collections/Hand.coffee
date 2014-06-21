@@ -39,6 +39,4 @@ class window.Hand extends Backbone.Collection
 
     if @scores() < 21
         @trigger 'done', @
-    # @trigger 'bust', @
-    # @trigger 'done', @
 
