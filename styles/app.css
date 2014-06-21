@@ -18,3 +18,14 @@
 .hand {
   overflow: auto;
 }
+
+.game-status {
+  visibility: hidden;
+}
+
+button {
+  margin-top: 20px;
+}
+.new-game {
+  visibility: hidden;
+}

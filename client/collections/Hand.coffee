@@ -33,10 +33,7 @@ class window.Hand extends Backbone.Collection
 
     while (@scores() < 17)
       @add(@deck.pop()).last()
-    
-    if @scores() > 21
-        @trigger 'bust', @
 
-    if @scores() < 21
-        @trigger 'done', @
+    @trigger 'done', @
+        
 

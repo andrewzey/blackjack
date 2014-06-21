@@ -1,21 +1,24 @@
 class window.AppView extends Backbone.View
 
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
+    <div class="game-status"><p>Round is Not Over</p></div>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
+    <button class="new-game">New Game</button>
   '
 
   events:
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
+    "click .new-game": -> $('body').html(new AppView(model: new App()).$el)
 
   initialize: ->
-    @model.on('blackjack', -> alert("Blackjack!"))
-    @model.on('bust', -> alert("You Busted!"))
-    @model.on('won', -> alert("You Won!"))
-    @model.on('lost', -> alert("You Lost!"))
-    @model.on('draw', -> alert("It's a Draw!"))
+    @model.on('blackjack', => do @endgame('Blackjack'))
+    @model.on('bust', => do @endgame('Bust'))
+    @model.on('won', => do @endgame('Won'))
+    @model.on('lost', => do @endgame('Lost'))
+    @model.on('draw', => do @endgame('Draw'))
     @render()
 
   render: ->
@@ -23,3 +26,22 @@ class window.AppView extends Backbone.View
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+
+  endgame: (status)->
+    if (status is 'Blackjack')
+      $('.game-status p').text("You won with Blackjack!");
+
+    if (status is 'Bust')
+      $('.game-status p').text("Game Over: You Busted!");
+
+    if (status is 'Won')
+      $('.game-status p').text("You Won!");
+
+    if (status is 'Lost')
+      $('.game-status p').text("You Lost!");
+
+    if (status is 'Draw')
+      $('.game-status p').text("It's a Draw!");
+
+    $('.game-status').css('visibility', 'visible');
+    $('.new-game').css('visibility', 'visible');
