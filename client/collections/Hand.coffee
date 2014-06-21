@@ -7,6 +7,16 @@ class window.Hand extends Backbone.Collection
   hit: ->
     @add(@deck.pop()).last()
 
+    #if it's the player hand
+    if @isDealer is undefined
+      if @scores()[0] > 21
+        @trigger 'bust', @
+
+    #if it's the dealer's hand
+
+
+
+
 
   scores: ->
     # The scores are an array of potential scores.
