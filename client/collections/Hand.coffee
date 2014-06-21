@@ -11,10 +11,16 @@ class window.Hand extends Backbone.Collection
     if @isDealer is undefined
       if @scores()[0] > 21
         @trigger 'bust', @
+      else if @scores()[0] < 21
+        @trigger 'next', @
 
     #if it's the dealer's hand
+    if @isDealer is true
+      console.log "hand is the dealer's"
 
 
+  stand: ->
+    @trigger 'next', @
 
 
 

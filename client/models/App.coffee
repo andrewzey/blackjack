@@ -9,6 +9,12 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'bust', => 
     	do @lost
 
+    @get('playerHand').on 'next', => 
+    	do @get('dealerHand').at(0).flip
+
+    @get('dealerHand').on 'bust', =>
+    	do @won
+
   won: ->
     @trigger 'won', @
 
