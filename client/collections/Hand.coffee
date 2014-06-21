@@ -29,7 +29,16 @@ class window.Hand extends Backbone.Collection
       score
 
   playDealer: ->
-    console.log('hello')
+    do @at(0).flip
+
+    while (@scores() < 17)
+      @add(@deck.pop()).last()
+    
+    if @scores() > 21
+        @trigger 'bust', @
+
+    if @scores() < 21
+        @trigger 'done', @
     # @trigger 'bust', @
     # @trigger 'done', @
 

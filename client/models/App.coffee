@@ -9,10 +9,27 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'bust', => 
     	do @bust
 
-    @get('playerHand').on 'done', =>
+    @get('playerHand').on 'done', => 
+      do @get('dealerHand').playDealer
+
+    @get('dealerHand').on 'bust', => 
+      do @won
+
+    @get('dealerHand').on 'done', =>
       playerScore = @get('playerHand').scores()
-      console.log playerScore
-    	#@get('dealerHand').playDealer()
+      dealerScore = @get('dealerHand').scores()
+      
+      if (playerScore is dealerScore)
+        do @draw
+
+      if (playerScore < dealerScore)
+        do @lost
+
+      if (playerScore > dealerScore)
+        if playerScore is 21
+          do @blackjack
+        else
+          do @won
 
 
   blackjack: ->
