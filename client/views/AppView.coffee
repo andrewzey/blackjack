@@ -17,6 +17,9 @@ class window.AppView extends Backbone.View
       $('.stand-button').css('visibility', 'visible')
       $('.start-game').hide()
 
+      if ( ( @model.get 'initialResult' ) is 'blackjack' ) then @endgame('Blackjack')
+      if ( ( @model.get 'initialResult' ) is 'draw' ) then @endgame('Draw')
+
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
 
@@ -35,9 +38,6 @@ class window.AppView extends Backbone.View
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
-
-    if ( ( @model.get 'initialResult' ) is 'blackjack' ) then @endgame('Blackjack')
-    if ( ( @model.get 'initialResult' ) is 'draw' ) then @endgame('Draw')
 
   endgame: (status)->
 

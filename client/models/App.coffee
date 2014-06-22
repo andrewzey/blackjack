@@ -15,7 +15,7 @@ class window.App extends Backbone.Model
 
     playerScore = @get('playerHand').scores()
     
-    if playerScore > 21
+    if playerScore is 21
       @get('dealerHand').at(0).flip()
       dealerScore = @get('dealerHand').scores()
       if dealerScore is 21 
