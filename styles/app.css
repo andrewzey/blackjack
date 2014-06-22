@@ -72,6 +72,12 @@ button {
   margin-top: 20px;
   margin-right: 10px;
 }
-.new-game {
+
+.start-game {
+
+}
+
+
+.new-game, .hit-button, .stand-button {
   visibility: hidden;
 }

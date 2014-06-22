@@ -4,22 +4,30 @@ class window.AppView extends Backbone.View
     <div class="game-status"><h2>Round is Not Over</h2></div>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <button class="start-game btn btn-danger btn-lg">Start Game</button>
     <button class="hit-button btn btn-success btn-lg">Hit</button>
     <button class="stand-button btn btn-success btn-lg">Stand</button>
     <button class="new-game btn btn-danger btn-lg">New Game</button>
   '
 
   events:
+    "click .start-game": -> 
+      @model.start()
+      $('.hit-button').css('visibility', 'visible')
+      $('.stand-button').css('visibility', 'visible')
+      $('.start-game').hide()
+
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
+
     "click .new-game": -> $('.container').html(new AppView({model: new App()}).$el)
 
   initialize: ->
-    @model.on('blackjack', => do @endgame('Blackjack'))
-    @model.on('bust', => do @endgame('Bust'))
-    @model.on('won', => do @endgame('Won'))
-    @model.on('lost', => do @endgame('Lost'))
-    @model.on('draw', => do @endgame('Draw'))
+    @model.on('bust', => @endgame('Bust'))
+    @model.on('won', => @endgame('Won'))
+    @model.on('lost', => @endgame('Lost'))
+    @model.on('draw', => @endgame('Draw'))
+
     @render()
 
   render: ->
@@ -28,7 +36,11 @@ class window.AppView extends Backbone.View
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
 
+    if ( ( @model.get 'initialResult' ) is 'blackjack' ) then @endgame('Blackjack')
+    if ( ( @model.get 'initialResult' ) is 'draw' ) then @endgame('Draw')
+
   endgame: (status)->
+
     if (status is 'Blackjack')
       $('.game-status h2').text("You won with Blackjack!")
 

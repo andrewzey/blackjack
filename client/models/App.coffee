@@ -5,9 +5,26 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
+    @set 'initialResult', null
+    
+  start: ->
+    @get('playerHand').at(0).flip()
+    @get('playerHand').at(1).flip()
+
+    @get('dealerHand').at(1).flip()
+
+    playerScore = @get('playerHand').scores()
+    
+    if playerScore > 21
+      @get('dealerHand').at(0).flip()
+      dealerScore = @get('dealerHand').scores()
+      if dealerScore is 21 
+        @set 'initialResult', 'draw'
+      else
+        @set 'initialResult', 'blackjack'
 
     @get('playerHand').on 'bust', => 
-    	do @bust
+      @trigger 'bust', @
 
     @get('playerHand').on 'done', => 
       do @get('dealerHand').playDealer
@@ -17,32 +34,15 @@ class window.App extends Backbone.Model
       dealerScore = @get('dealerHand').scores()
       
       if (playerScore is dealerScore)
-        do @draw
-
-      else if playerScore is 21 and @get('playerHand').length is 2
-        do @blackjack
+        @trigger 'draw', @
 
       else if dealerScore > 21
-        do @won
+        @trigger 'won', @
 
       else if (playerScore < dealerScore)
-        do @lost
+        @trigger 'lost', @
 
       else if (playerScore > dealerScore)
-        do @won
+        @trigger 'won', @
+      
 
-
-  blackjack: ->
-    @trigger 'blackjack', @
-
-  bust: ->
-    @trigger 'bust', @
-
-  won: ->
-    @trigger 'won', @
-
-  lost: ->
-    @trigger 'lost', @
-
-  draw: ->
-    @trigger 'draw', @
